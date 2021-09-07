@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
+import Saludar from './Saludar';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
   const [update, setUpdate] = useState(false);
-
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos')
       .then(response => response.json())
-      .then(json => { setTasks(json) })
+      .then(json => setTasks(json))
   }, []);
-
-  useEffect(() => {
-    console.log("Me ejecuté")
-  }, [update]);
 
 
   return (
@@ -21,14 +17,16 @@ const App = () => {
         <button onClick={() => setUpdate(!update)}>Update</button>
       </section>
       <section>
-        {tasks.length ?
-          tasks.map((task) => {
-            return (
-              <span key={task.id}>
-                <p>{task.title}</p>
-              </span>)
-          })
-          : null}
+        {update ? <Saludar /> : null}
+      </section>
+      <section>
+        {tasks.length ? tasks.map(task => {
+          return (
+            <div key={task.id}>
+              <span>{task.title}</span>
+            </div>
+          )
+        }) : null}
       </section>
     </div>
   )
